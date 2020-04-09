@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<JobList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Jobs>
+    <Job>
+      <Name>fixing server issue</Name>
+      <Hours>5.5</Hours>
+      <Assigned>Sam</Assigned>
+    </Job>
+    <Job>
+      <Name>installation</Name>
+      <Hours>8.5</Hours>
+      <Assigned>Mandy</Assigned>
+    </Job>
+    <Job>
+      <Name>its okay</Name>
+      <Hours>5</Hours>
+      <Assigned>john</Assigned>
+    </Job>
+  </Jobs>
+</JobList>

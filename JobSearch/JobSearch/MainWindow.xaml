@@ -1,0 +1,74 @@
+﻿<Window x:Class="JobSearch.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JobSearch"
+        xmlns:local1="clr-namespace:JobSearch.Validations"
+        xmlns:local2="clr-namespace:JobSearch.Models"
+        mc:Ignorable="d"
+        Title="HR Management System" Height="550" Width="1000">
+    <Window.Resources>
+        <local1:RowConverter x:Key="myConverter"/>
+        <local1:HourRule x:Key="aHours"/>
+        <local2:Job x:Key="job"/>
+    </Window.Resources>
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label x:Name="lblJobName" Width="120" Content="Enter Job Name" HorizontalAlignment="Left" Margin="10" FontWeight="Bold"></Label>
+            <Label x:Name="lblHours" Width="120" Content="Hours Worked" HorizontalAlignment="Left" Margin="10" FontWeight="Bold"></Label>
+            <Label x:Name="lblAssignedTo" Width="120" Content="Assigned To" HorizontalAlignment="Left" Margin="10" FontWeight="Bold"></Label>
+            <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Margin="30" Width="60" Height="30" Click="btnAdd_Click"></Button>
+            <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="30" Width="60" Height="30" Click="btnSave_Click"></Button>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1">
+            <TextBox x:Name="txtJobName" Margin="10" HorizontalAlignment="Left" Width="200" Height="30"></TextBox>
+            <TextBox x:Name="txtHours" Margin="10" HorizontalAlignment="Left" Width="200" 
+                     Height="30" 
+                     ToolTip="{Binding ElementName=txtHours, Path=(Validation.Errors)[0].ErrorContent}" 
+                     DataContext="{StaticResource job}" GotFocus="txtHours_GotFocus" LostFocus="txtHours_LostFocus">
+                <TextBox.Text>
+                    <Binding Path="Hours">
+                        <Binding.ValidationRules>
+                            <local1:HourRule Min="0" Max="8"></local1:HourRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox x:Name="txtAssignedTo" Margin="10" HorizontalAlignment="Left" Width="200" Height="30"></TextBox>
+        </StackPanel>
+        <DataGrid x:Name="grdAddedJobs" Grid.Column="2" ItemsSource="{Binding Path=DisplayJobs}" Margin="10" AutoGenerateColumns="False">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{Binding Hours, Converter={StaticResource myConverter}}" />
+                </Style>
+            </DataGrid.RowStyle>
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Job Name" Width="*" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Hours Worked" Width="*" Binding="{Binding Hours}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Assigned To" Width="*" Binding="{Binding Assigned}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Column="3">
+            
+            <DataGrid Margin="10" Height="Auto" AutoGenerateColumns="False" ItemsSource="{Binding Path=DisplaySearchedJobs}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Job Name" Width="*" Binding="{Binding Name}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Hours Worked" Width="*" Binding="{Binding Hours}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Assigned To" Width="*" Binding="{Binding Assigned}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBox x:Name="txtSearch" Width="200" Height="30" Text="Search by Job Name" HorizontalAlignment="Center" Margin="10" GotFocus="txtSearch_GotFocus" LostFocus="txtSearch_LostFocus"></TextBox>
+            <Button x:Name="btnSearch" Content="Search" HorizontalAlignment="Center" Margin="10" Width="60" Height="30" Click="btnSearch_Click"></Button>
+        </StackPanel>
+    </Grid>
+</Window>
